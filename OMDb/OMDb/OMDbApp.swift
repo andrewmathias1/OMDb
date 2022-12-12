@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct OMDbApp: App {
-    let vm = SearchViewModel(apiClient: APIClient(urlSession: URLSession.shared))
+    let vm = SearchViewModel(apiClient: APIClient(urlSession: .shared))
 
     var body: some Scene {
         WindowGroup {

@@ -11,4 +11,5 @@ public enum TitleType: String, Codable {
     case movie
     case series
     case episode
+    case none
 }

@@ -10,15 +10,51 @@ import Combine
 
 final class SearchViewModel: ObservableObject {
     
+    enum Action {
+        case search
+    }
+    
     @Published var apiClient: APIClientProvider
+    @Published var titleInput = ""
+    @Published var typeInput: TitleType?
+    @Published var yearInput = ""
+
     private var cancellables = Set<AnyCancellable>()
 
     init(
         apiClient: APIClientProvider
     ) {
         self.apiClient = apiClient
-        
-        apiClient.searchTitles(searchParams: [:])
+    }
+    
+    func sendAction(_ action: Action) {
+        switch action {
+        case .search:
+            let query = createQueryParams(
+                title: titleInput,
+                type: typeInput,
+                year: yearInput
+            )
+            search(query)
+        }
+    }
+    
+    func createQueryParams(
+        title: String,
+        type: TitleType? = nil,
+        year: String? = nil
+    ) -> [String: Any] {
+        [
+            "apiKey": "d865dc3d",
+            "s": title
+        ]
+    }
+}
+
+private extension SearchViewModel {
+    
+    func search(_ query: [String: Any]) {
+        apiClient.searchTitles(searchParams: query)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { response in
                 if case let .failure(error) = response {
@@ -32,21 +68,25 @@ final class SearchViewModel: ObservableObject {
 }
 
 struct ContentView: View {
-    var vm: SearchViewModel
+    
+    @ObservedObject var vm: SearchViewModel
 
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            TextField("Enter title:", text: $vm.titleInput)
+            
+            Button("Search") {
+                vm.sendAction(.search)
+            }
         }
         .padding()
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        let apiClient = APIClient(urlSession: .shared)
+        let vm = SearchViewModel(apiClient: apiClient)
+        ContentView(vm: vm)
+    }
+}
