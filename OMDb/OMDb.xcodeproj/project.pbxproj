@@ -10,10 +10,18 @@
 		B86E598529478A1A008E08DA /* OMDbApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E598429478A1A008E08DA /* OMDbApp.swift */; };
 		B86E598729478A1A008E08DA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E598629478A1A008E08DA /* ContentView.swift */; };
 		B86E598929478A1B008E08DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B86E598829478A1B008E08DA /* Assets.xcassets */; };
-		B86E598C29478A1B008E08DA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B86E598B29478A1B008E08DA /* Preview Assets.xcassets */; };
 		B86E599629478A1C008E08DA /* OMDbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E599529478A1C008E08DA /* OMDbTests.swift */; };
 		B86E59A029478A1C008E08DA /* OMDbUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E599F29478A1C008E08DA /* OMDbUITests.swift */; };
 		B86E59A229478A1C008E08DA /* OMDbUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59A129478A1C008E08DA /* OMDbUITestsLaunchTests.swift */; };
+		B86E59B129479414008E08DA /* APIClientProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59B029479414008E08DA /* APIClientProvider.swift */; };
+		B86E59B32947948C008E08DA /* RequestExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59B22947948C008E08DA /* RequestExecutor.swift */; };
+		B86E59B629479991008E08DA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59B529479991008E08DA /* HTTPMethod.swift */; };
+		B86E59B8294799A7008E08DA /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59B7294799A7008E08DA /* APIError.swift */; };
+		B86E59BB29479AEF008E08DA /* SearchDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59BA29479AEF008E08DA /* SearchDatabase.swift */; };
+		B86E59BD29479BF3008E08DA /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59BC29479BF3008E08DA /* Endpoint.swift */; };
+		B86E59C52947A5E9008E08DA /* Plot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59C42947A5E9008E08DA /* Plot.swift */; };
+		B86E59C72947A5FF008E08DA /* TitleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59C62947A5FF008E08DA /* TitleType.swift */; };
+		B86E59C92947AA5A008E08DA /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86E59C82947AA5A008E08DA /* SearchResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,12 +46,21 @@
 		B86E598429478A1A008E08DA /* OMDbApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDbApp.swift; sourceTree = "<group>"; };
 		B86E598629478A1A008E08DA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B86E598829478A1B008E08DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B86E598B29478A1B008E08DA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B86E599129478A1C008E08DA /* OMDbTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OMDbTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B86E599529478A1C008E08DA /* OMDbTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDbTests.swift; sourceTree = "<group>"; };
 		B86E599B29478A1C008E08DA /* OMDbUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OMDbUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B86E599F29478A1C008E08DA /* OMDbUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDbUITests.swift; sourceTree = "<group>"; };
 		B86E59A129478A1C008E08DA /* OMDbUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OMDbUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B86E59B029479414008E08DA /* APIClientProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientProvider.swift; sourceTree = "<group>"; };
+		B86E59B22947948C008E08DA /* RequestExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestExecutor.swift; sourceTree = "<group>"; };
+		B86E59B529479991008E08DA /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		B86E59B7294799A7008E08DA /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		B86E59BA29479AEF008E08DA /* SearchDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDatabase.swift; sourceTree = "<group>"; };
+		B86E59BC29479BF3008E08DA /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		B86E59C42947A5E9008E08DA /* Plot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plot.swift; sourceTree = "<group>"; };
+		B86E59C62947A5FF008E08DA /* TitleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleType.swift; sourceTree = "<group>"; };
+		B86E59C82947AA5A008E08DA /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		B86E59CA2947BD9B008E08DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				B86E598329478A1A008E08DA /* OMDb */,
+				B86E59B429479957008E08DA /* Networking */,
 				B86E599429478A1C008E08DA /* OMDbTests */,
 				B86E599E29478A1C008E08DA /* OMDbUITests */,
 				B86E598229478A1A008E08DA /* Products */,
@@ -94,20 +112,12 @@
 		B86E598329478A1A008E08DA /* OMDb */ = {
 			isa = PBXGroup;
 			children = (
+				B86E59CA2947BD9B008E08DA /* Info.plist */,
 				B86E598429478A1A008E08DA /* OMDbApp.swift */,
 				B86E598629478A1A008E08DA /* ContentView.swift */,
 				B86E598829478A1B008E08DA /* Assets.xcassets */,
-				B86E598A29478A1B008E08DA /* Preview Content */,
 			);
 			path = OMDb;
-			sourceTree = "<group>";
-		};
-		B86E598A29478A1B008E08DA /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				B86E598B29478A1B008E08DA /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		B86E599429478A1C008E08DA /* OMDbTests */ = {
@@ -125,6 +135,38 @@
 				B86E59A129478A1C008E08DA /* OMDbUITestsLaunchTests.swift */,
 			);
 			path = OMDbUITests;
+			sourceTree = "<group>";
+		};
+		B86E59B429479957008E08DA /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				B86E59C32947A5DD008E08DA /* Models */,
+				B86E59B929479A0B008E08DA /* Endpoints */,
+				B86E59B029479414008E08DA /* APIClientProvider.swift */,
+				B86E59B22947948C008E08DA /* RequestExecutor.swift */,
+				B86E59B529479991008E08DA /* HTTPMethod.swift */,
+				B86E59B7294799A7008E08DA /* APIError.swift */,
+				B86E59BC29479BF3008E08DA /* Endpoint.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		B86E59B929479A0B008E08DA /* Endpoints */ = {
+			isa = PBXGroup;
+			children = (
+				B86E59BA29479AEF008E08DA /* SearchDatabase.swift */,
+			);
+			path = Endpoints;
+			sourceTree = "<group>";
+		};
+		B86E59C32947A5DD008E08DA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B86E59C42947A5E9008E08DA /* Plot.swift */,
+				B86E59C62947A5FF008E08DA /* TitleType.swift */,
+				B86E59C82947AA5A008E08DA /* SearchResponse.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +273,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B86E598C29478A1B008E08DA /* Preview Assets.xcassets in Resources */,
 				B86E598929478A1B008E08DA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,8 +298,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B86E59C92947AA5A008E08DA /* SearchResponse.swift in Sources */,
 				B86E598729478A1A008E08DA /* ContentView.swift in Sources */,
+				B86E59C72947A5FF008E08DA /* TitleType.swift in Sources */,
+				B86E59BD29479BF3008E08DA /* Endpoint.swift in Sources */,
+				B86E59C52947A5E9008E08DA /* Plot.swift in Sources */,
+				B86E59BB29479AEF008E08DA /* SearchDatabase.swift in Sources */,
+				B86E59B629479991008E08DA /* HTTPMethod.swift in Sources */,
+				B86E59B129479414008E08DA /* APIClientProvider.swift in Sources */,
+				B86E59B32947948C008E08DA /* RequestExecutor.swift in Sources */,
 				B86E598529478A1A008E08DA /* OMDbApp.swift in Sources */,
+				B86E59B8294799A7008E08DA /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,10 +466,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"OMDb/Preview Content\"";
 				DEVELOPMENT_TEAM = D8G3DM4RVP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OMDb/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -434,7 +484,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -445,10 +495,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"OMDb/Preview Content\"";
 				DEVELOPMENT_TEAM = D8G3DM4RVP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OMDb/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -463,7 +513,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

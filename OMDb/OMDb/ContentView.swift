@@ -6,8 +6,34 @@
 //
 
 import SwiftUI
+import Combine
+
+final class SearchViewModel: ObservableObject {
+    
+    @Published var apiClient: APIClientProvider
+    private var cancellables = Set<AnyCancellable>()
+
+    init(
+        apiClient: APIClientProvider
+    ) {
+        self.apiClient = apiClient
+        
+        apiClient.searchTitles(searchParams: [:])
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { response in
+                if case let .failure(error) = response {
+                    print(error)
+                }
+                }, receiveValue: { response in
+                    print(response)
+            })
+            .store(in: &cancellables)
+    }
+}
 
 struct ContentView: View {
+    var vm: SearchViewModel
+
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -19,8 +45,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

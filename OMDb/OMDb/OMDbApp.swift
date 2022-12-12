@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct OMDbApp: App {
+    let vm = SearchViewModel(apiClient: APIClient(urlSession: URLSession.shared))
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(vm: vm)
         }
     }
 }
