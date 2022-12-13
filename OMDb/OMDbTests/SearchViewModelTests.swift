@@ -17,7 +17,7 @@ final class SearchViewModelTests: XCTestCase {
         vm.titleInput = "Interstellar"
         vm.sendAction(.newSearch)
         
-        var expectedQuery: [Query] = [
+        let expectedQuery: [Query] = [
             Query(key: "s", value: "Interstellar"),
             Query(key: "page", value: 1)
         ]
@@ -37,8 +37,7 @@ final class SearchViewModelTests: XCTestCase {
         }
     }
     
-    // test year... etc
-    // test is list full logic.. if per page is less show button
+    // TODO: - test is list full logic.. if per page is less show button
     
     private func buildViewModel() -> SearchViewModel {
         let apiClient = APIClient(urlSession: .shared)
