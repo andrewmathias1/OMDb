@@ -9,20 +9,20 @@ import Combine
 import Foundation
 
 public protocol APIClientProvider {
-    func searchTitles(searchParams: [String: Any]) -> AnyPublisher<SearchResponse, APIError<OMDbError>>
+    func searchTitles(searchParams: [Query]) -> AnyPublisher<SearchResponse, APIError<OMDbError>>
 }
 
 public class APIClient: APIClientProvider {
    
     private var requestExecutor: RequestExecutor
     
-    init(
+    public init(
         urlSession: URLSession
     ) {
         self.requestExecutor = RequestExecutor(urlSession: urlSession)
     }
     
-    public func searchTitles(searchParams: [String: Any]) -> AnyPublisher<SearchResponse, APIError<OMDbError>> {
+    public func searchTitles(searchParams: [Query]) -> AnyPublisher<SearchResponse, APIError<OMDbError>> {
         let endpoint = Endpoint.searchTitles(searchParams: searchParams)
         return requestExecutor.performRequest(endpoint) 
     }

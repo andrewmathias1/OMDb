@@ -30,7 +30,7 @@ struct SearchView: View {
                     }
                 }
                 
-                if !vm.isListFull && !vm.searchResults.isEmpty {
+                if vm.showSeeMore {
                     Button("See more...") {
                         vm.sendAction(.seeMoreResults)
                     }

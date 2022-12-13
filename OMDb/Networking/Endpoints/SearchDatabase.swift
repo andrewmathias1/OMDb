@@ -10,7 +10,7 @@ import Foundation
 extension Endpoint where Response == SearchResponse,
                          EndpointError == OMDbError {
     
-    static func searchTitles(searchParams: [String: Any]) -> Endpoint {
+    static func searchTitles(searchParams: [Query]) -> Endpoint {
         Endpoint(
             method: .post,
             parameters: searchParams

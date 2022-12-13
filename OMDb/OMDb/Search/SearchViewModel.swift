@@ -8,12 +8,17 @@
 import Combine
 import Foundation
 
-struct SearchResult: Hashable {
+public struct SearchResult: Hashable {
     let id: String
     let title: String
 }
 
-final class SearchViewModel: ObservableObject {
+public struct Query {
+    let key: String
+    let value: Any
+}
+
+public class SearchViewModel: ObservableObject {
     
     enum Action {
         case newSearch
@@ -25,20 +30,22 @@ final class SearchViewModel: ObservableObject {
     @Published var searchResults: [SearchResult] = []
     @Published var apiClient: APIClientProvider
     @Published var isListFull = false
-    
+    @Published var showSeeMore = false
+    @Published var queryParams: [Query] = []
+
     private var currentPage = 1
     private let perPage = 10
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(
+    public init(
         apiClient: APIClientProvider
     ) {
         self.apiClient = apiClient
     }
     
     func sendAction(_ action: Action) {
-        let query = createQueryParams(
+        updateQueryParams(
             title: titleInput,
             year: yearInput
         )
@@ -49,40 +56,40 @@ final class SearchViewModel: ObservableObject {
             searchResults = []
             isListFull = false
             
-            search(query)
+            search(queryParams)
             
         case .seeMoreResults:
-            search(query)
+            search(queryParams)
         }
     }
     
-    private func createQueryParams(
+    private func updateQueryParams(
         title: String,
         type: TitleType? = nil,
         year: String? = nil
-    ) -> [String: Any] {
-        var query: [String: Any] = [
-            "s": title,
-            "page": currentPage
-        ]
-        
+    ){
+        var params: [Query] = []
+        params.append(Query(key: "s", value: title))
+        params.append(Query(key: "page", value: currentPage))
+
         if let year = year {
-            query["y"] = year
+            params.append(Query(key: "y", value: year))
         }
         
-        return query
+        queryParams = params
     }
 }
 
 private extension SearchViewModel {
     
-    func search(_ query: [String: Any]) {
-        apiClient.searchTitles(searchParams: query)
+    func search(_ querParams: [Query]) {
+        apiClient.searchTitles(searchParams: querParams)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] response in
 
                 if case let .failure(error) = response {
                     print(error)
+                    // TODO: Handle error && empty results list 
                 }
                 }, receiveValue: { [weak self] response in
                     guard let self = self else { return }
@@ -108,6 +115,10 @@ private extension SearchViewModel {
                     if response.searchResponse.count < self.perPage {
                         self.isListFull = true
                     }
+                    
+                    self.showSeeMore = (self.isListFull || self.searchResults.isEmpty)
+                    ? false : true
+                    
             })
             .store(in: &cancellables)
     }

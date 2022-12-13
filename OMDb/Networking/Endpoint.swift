@@ -26,7 +26,7 @@ struct Endpoint<Response: Decodable, EndpointError> {
     let method: HTTPMethod
     var encoder: JSONEncoder?
     var decoder: JSONDecoder?
-    var parameters: [String: Any] = [:]
+    var parameters: [Query] = []
     
     func asURLRequest() -> URLRequest? {
 
