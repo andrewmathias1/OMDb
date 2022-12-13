@@ -26,8 +26,8 @@ final class SearchViewModel: ObservableObject {
     @Published var apiClient: APIClientProvider
     @Published var isListFull = false
     
-    var currentPage = 1
-    let perPage = 10
+    private var currentPage = 1
+    private let perPage = 10
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -56,7 +56,7 @@ final class SearchViewModel: ObservableObject {
         }
     }
     
-    func createQueryParams(
+    private func createQueryParams(
         title: String,
         type: TitleType? = nil,
         year: String? = nil
@@ -109,7 +109,6 @@ private extension SearchViewModel {
                     if response.searchResponse.count < self.perPage {
                         self.isListFull = true
                     }
-                    
             })
             .store(in: &cancellables)
     }
@@ -119,7 +118,6 @@ struct ContentView: View {
     
     @ObservedObject var vm: SearchViewModel
     @State private var presentedViews: [SearchResult] = []
-
 
     var body: some View {
         NavigationStack(path: $presentedViews) {
@@ -134,7 +132,9 @@ struct ContentView: View {
            
             List {
                 ForEach(vm.searchResults, id: \.self) { result in
-                    NavigationLink(result.title, value: result)
+                    NavigationLink(value: result) {
+                        Text(result.title)
+                    }
                 }
                 
                 if !vm.isListFull && !vm.searchResults.isEmpty {
@@ -146,11 +146,10 @@ struct ContentView: View {
             .navigationDestination(for: SearchResult.self) { result in
                 ContentDetailView(text: result.title)
             }
+            .navigationTitle("OMDb")
         }
     }
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -160,11 +159,10 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-
 struct ContentDetailView: View {
     var text: String
     
     var body: some View {
-        Text(text)
+        Text("")
     }
 }

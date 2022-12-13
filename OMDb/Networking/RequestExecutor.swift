@@ -87,7 +87,6 @@ class RequestExecutor {
         @unknown default:
             break
         }
-        
         return errorToReport
     }
     
