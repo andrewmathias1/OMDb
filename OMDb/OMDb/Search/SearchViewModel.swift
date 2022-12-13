@@ -1,12 +1,12 @@
 //
-//  ContentView.swift
+//  SearchViewModel.swift
 //  OMDb
 //
-//  Created by Andrew Mathias on 12/12/2022.
+//  Created by Andrew Mathias on 13/12/2022.
 //
 
 import Combine
-import SwiftUI
+import Foundation
 
 struct SearchResult: Hashable {
     let id: String
@@ -62,7 +62,6 @@ final class SearchViewModel: ObservableObject {
         year: String? = nil
     ) -> [String: Any] {
         var query: [String: Any] = [
-            "apiKey": "d865dc3d",
             "s": title,
             "page": currentPage
         ]
@@ -111,58 +110,5 @@ private extension SearchViewModel {
                     }
             })
             .store(in: &cancellables)
-    }
-}
-
-struct ContentView: View {
-    
-    @ObservedObject var vm: SearchViewModel
-    @State private var presentedViews: [SearchResult] = []
-
-    var body: some View {
-        NavigationStack(path: $presentedViews) {
-            VStack  {
-                TextField("Title:", text: $vm.titleInput)
-                TextField("Year:", text: $vm.yearInput)
-                Button("Search") {
-                    vm.sendAction(.newSearch)
-                }
-            }
-            .padding(.all, 16)
-           
-            List {
-                ForEach(vm.searchResults, id: \.self) { result in
-                    NavigationLink(value: result) {
-                        Text(result.title)
-                    }
-                }
-                
-                if !vm.isListFull && !vm.searchResults.isEmpty {
-                    Button("See more...") {
-                        vm.sendAction(.seeMoreResults)
-                    }
-                }
-            }
-            .navigationDestination(for: SearchResult.self) { result in
-                ContentDetailView(text: result.title)
-            }
-            .navigationTitle("OMDb")
-        }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let apiClient = APIClient(urlSession: .shared)
-        let vm = SearchViewModel(apiClient: apiClient)
-        ContentView(vm: vm)
-    }
-}
-
-struct ContentDetailView: View {
-    var text: String
-    
-    var body: some View {
-        Text("")
     }
 }

@@ -13,7 +13,7 @@ struct OMDbApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(vm: vm)
+            SearchView(vm: vm)
         }
     }
 }

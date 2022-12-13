@@ -8,6 +8,21 @@
 import Foundation
 
 struct Endpoint<Response: Decodable, EndpointError> {
+    
+    private var apiKey: String {
+        get {
+            guard let filePath = Bundle.main.path(forResource: "OMDb-Info", ofType: "plist") else {
+                fatalError("Couldn't find file 'OMDb-Info.plist'.")
+            }
+            let plist = NSDictionary(contentsOfFile: filePath)
+       
+            guard let value = plist?.object(forKey: "API_KEY") as? String else {
+                fatalError("Couldn't find key 'API_KEY' in 'OMDb-Info.plist'.")
+            }
+            return value
+        }
+    }
+    
     let method: HTTPMethod
     var encoder: JSONEncoder?
     var decoder: JSONDecoder?
@@ -17,12 +32,18 @@ struct Endpoint<Response: Decodable, EndpointError> {
 
         let url = URL(string: "http://www.omdbapi.com/")!
         
-        // Add query params
         var urlComponents = URLComponents(string: url.absoluteString)
         
+        // Add api key  
+        urlComponents?.queryItems = [URLQueryItem(name: "apiKey", value: apiKey)]
+        
+        // Add query params
         if parameters.count > 0 {
-            let queryItems = parameters.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
-            urlComponents?.queryItems = queryItems
+            parameters.forEach {
+                urlComponents?.queryItems?.append(
+                    URLQueryItem(name: $0.key, value: "\($0.value)")
+                )
+            }
         }
                 
         guard let url = urlComponents?.url else {

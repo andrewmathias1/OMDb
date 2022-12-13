@@ -16,7 +16,7 @@ class RequestExecutor {
         decoder.dateDecodingStrategy = .secondsSince1970
         return decoder
     }()
-    
+
     init(
         urlSession: URLSession = URLSession.shared
     ) {
@@ -71,6 +71,7 @@ class RequestExecutor {
         }
     }
     
+    ///  Returns a detailed decoding error using error context
     private func displayDecodingError(error: DecodingError) -> String {
         var errorToReport = error.localizedDescription
         
@@ -90,6 +91,7 @@ class RequestExecutor {
         return errorToReport
     }
     
+    /// Will return an empty encoded data set if data Data object is empty
     private func sanitizedJsonData(from data: Data) -> Data {
         if data.isEmpty {
             return "{}".data(using: .utf8) ?? Data()
