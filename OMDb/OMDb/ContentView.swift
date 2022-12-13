@@ -8,16 +8,16 @@
 import Combine
 import SwiftUI
 
+struct SearchResult: Hashable {
+    let id: String
+    let title: String
+}
+
 final class SearchViewModel: ObservableObject {
     
     enum Action {
         case newSearch
         case seeMoreResults
-    }
-    
-    struct SearchResult: Hashable {
-        let id: String
-        let title: String
     }
     
     @Published var titleInput = ""
@@ -118,36 +118,53 @@ private extension SearchViewModel {
 struct ContentView: View {
     
     @ObservedObject var vm: SearchViewModel
+    @State private var presentedViews: [SearchResult] = []
+
 
     var body: some View {
-        
-        TextField("Title:", text: $vm.titleInput)
-        TextField("Year:", text: $vm.yearInput)
-        Button("Search") {
-            vm.sendAction(.newSearch)
-        }
-               
-        List {
-            ForEach(vm.searchResults, id: \.self) { result in
-                Text(result.title)
-            }
-            
-            if vm.isListFull == false {
-                Button("See more...") {
-                    vm.sendAction(.seeMoreResults)
+        NavigationStack(path: $presentedViews) {
+            VStack  {
+                TextField("Title:", text: $vm.titleInput)
+                TextField("Year:", text: $vm.yearInput)
+                Button("Search") {
+                    vm.sendAction(.newSearch)
                 }
             }
+            .padding(.all, 16)
+           
+            List {
+                ForEach(vm.searchResults, id: \.self) { result in
+                    NavigationLink(result.title, value: result)
+                }
+                
+                if !vm.isListFull && !vm.searchResults.isEmpty {
+                    Button("See more...") {
+                        vm.sendAction(.seeMoreResults)
+                    }
+                }
+            }
+            .navigationDestination(for: SearchResult.self) { result in
+                ContentDetailView(text: result.title)
+            }
         }
-        .navigationBarTitle("OMDb")
-            
-        
     }
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let apiClient = APIClient(urlSession: .shared)
         let vm = SearchViewModel(apiClient: apiClient)
         ContentView(vm: vm)
+    }
+}
+
+
+struct ContentDetailView: View {
+    var text: String
+    
+    var body: some View {
+        Text(text)
     }
 }
