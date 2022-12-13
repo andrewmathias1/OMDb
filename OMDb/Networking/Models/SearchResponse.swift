@@ -11,8 +11,7 @@ public struct SearchResponse: Decodable {
     public let searchResponse: [SearchTitle]
     
     public init(
-        searchResponse: [SearchTitle],
-        totalResults: String
+        searchResponse: [SearchTitle]
     ) {
         self.searchResponse = searchResponse
     }

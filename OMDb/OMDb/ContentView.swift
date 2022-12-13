@@ -5,19 +5,29 @@
 //  Created by Andrew Mathias on 12/12/2022.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 final class SearchViewModel: ObservableObject {
     
     enum Action {
-        case search
+        case newSearch
+        case seeMoreResults
     }
     
-    @Published var apiClient: APIClientProvider
+    struct SearchResult: Hashable {
+        let id: String
+        let title: String
+    }
+    
     @Published var titleInput = ""
-    @Published var typeInput: TitleType?
     @Published var yearInput = ""
+    @Published var searchResults: [SearchResult] = []
+    @Published var apiClient: APIClientProvider
+    @Published var isListFull = false
+    
+    var currentPage = 1
+    let perPage = 10
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -28,13 +38,20 @@ final class SearchViewModel: ObservableObject {
     }
     
     func sendAction(_ action: Action) {
+        let query = createQueryParams(
+            title: titleInput,
+            year: yearInput
+        )
+        
         switch action {
-        case .search:
-            let query = createQueryParams(
-                title: titleInput,
-                type: typeInput,
-                year: yearInput
-            )
+        case .newSearch:
+            currentPage = 1
+            searchResults = []
+            isListFull = false
+            
+            search(query)
+            
+        case .seeMoreResults:
             search(query)
         }
     }
@@ -44,10 +61,17 @@ final class SearchViewModel: ObservableObject {
         type: TitleType? = nil,
         year: String? = nil
     ) -> [String: Any] {
-        [
+        var query: [String: Any] = [
             "apiKey": "d865dc3d",
-            "s": title
+            "s": title,
+            "page": currentPage
         ]
+        
+        if let year = year {
+            query["y"] = year
+        }
+        
+        return query
     }
 }
 
@@ -56,12 +80,36 @@ private extension SearchViewModel {
     func search(_ query: [String: Any]) {
         apiClient.searchTitles(searchParams: query)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { response in
+            .sink(receiveCompletion: { [weak self] response in
+
                 if case let .failure(error) = response {
                     print(error)
                 }
-                }, receiveValue: { response in
-                    print(response)
+                }, receiveValue: { [weak self] response in
+                    guard let self = self else { return }
+                    self.currentPage += 1
+
+                    if self.currentPage == 1 {
+                        self.searchResults = response.searchResponse.map {
+                            SearchResult(
+                                id: $0.imdbID,
+                                title: $0.title
+                            )
+                        }
+
+                    } else {
+                        response.searchResponse.forEach {
+                            self.searchResults.append(SearchResult(
+                                id: $0.imdbID,
+                                title: $0.title
+                            ))
+                        }
+                    }
+                    
+                    if response.searchResponse.count < self.perPage {
+                        self.isListFull = true
+                    }
+                    
             })
             .store(in: &cancellables)
     }
@@ -72,14 +120,27 @@ struct ContentView: View {
     @ObservedObject var vm: SearchViewModel
 
     var body: some View {
-        VStack {
-            TextField("Enter title:", text: $vm.titleInput)
+        
+        TextField("Title:", text: $vm.titleInput)
+        TextField("Year:", text: $vm.yearInput)
+        Button("Search") {
+            vm.sendAction(.newSearch)
+        }
+               
+        List {
+            ForEach(vm.searchResults, id: \.self) { result in
+                Text(result.title)
+            }
             
-            Button("Search") {
-                vm.sendAction(.search)
+            if vm.isListFull == false {
+                Button("See more...") {
+                    vm.sendAction(.seeMoreResults)
+                }
             }
         }
-        .padding()
+        .navigationBarTitle("OMDb")
+            
+        
     }
 }
 

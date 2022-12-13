@@ -59,14 +59,36 @@ class RequestExecutor {
         } else {
             return Just(sanitizedData)
                 .decode(type: Response.self, decoder: endpoint.decoder ?? Self.jsonDecoder)
-                .mapError { error in
+                .mapError { [weak self] error in
                     if let error = error as? DecodingError {
-                        return .parsing(description: error.localizedDescription)
+                        let errorToReport = self?.displayDecodingError(error: error) ?? "Unknown decoding error"
+                        return .parsing(description: errorToReport)
                     }
+
                     return .parsing(description: "Non Decoding Error")
                 }
                 .eraseToAnyPublisher()
         }
+    }
+    
+    private func displayDecodingError(error: DecodingError) -> String {
+        var errorToReport = error.localizedDescription
+        
+        switch error {
+        case let .dataCorrupted(context):
+            let details = context.underlyingError?.localizedDescription ?? context.codingPath.map { $0.stringValue }.joined(separator: ".")
+            errorToReport = "\(context.debugDescription) - (\(details))"
+        case let .keyNotFound(key, context):
+            let details = context.underlyingError?.localizedDescription ?? context.codingPath.map { $0.stringValue }.joined(separator: ".")
+            errorToReport = "\(context.debugDescription) (key: \(key), \(details))"
+        case let .typeMismatch(type, context), let .valueNotFound(type, context):
+            let details = context.underlyingError?.localizedDescription ?? context.codingPath.map { $0.stringValue }.joined(separator: ".")
+            errorToReport = "\(context.debugDescription) (type: \(type), \(details))"
+        @unknown default:
+            break
+        }
+        
+        return errorToReport
     }
     
     private func sanitizedJsonData(from data: Data) -> Data {
